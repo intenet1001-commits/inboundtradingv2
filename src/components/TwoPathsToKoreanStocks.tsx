@@ -211,6 +211,7 @@ function EntityIcon({
   currency,
   color = "teal",
   size = "default",
+  largeFont = false,
 }: {
   icon: React.ReactNode;
   label: string;
@@ -218,6 +219,7 @@ function EntityIcon({
   currency?: string;
   color?: "teal" | "amber" | "blue" | "slate" | "emerald" | "purple";
   size?: "default" | "small";
+  largeFont?: boolean;
 }) {
   const colorClasses = {
     teal: "bg-teal-100 text-teal-600",
@@ -229,11 +231,25 @@ function EntityIcon({
   };
 
   const sizeClasses = {
-    default: "h-14 w-14",
-    small: "h-10 w-10",
+    default: largeFont ? "h-16 w-16" : "h-14 w-14",
+    small: largeFont ? "h-12 w-12" : "h-10 w-10",
   };
 
-  const iconSize = size === "small" ? "h-5 w-5" : "h-7 w-7";
+  const iconSize = size === "small"
+    ? (largeFont ? "h-6 w-6" : "h-5 w-5")
+    : (largeFont ? "h-8 w-8" : "h-7 w-7");
+
+  const labelSize = size === "small"
+    ? (largeFont ? "text-sm" : "text-xs")
+    : (largeFont ? "text-base" : "text-sm");
+
+  const sublabelSize = size === "small"
+    ? (largeFont ? "text-xs" : "text-[10px]")
+    : (largeFont ? "text-sm" : "text-xs");
+
+  const currencySize = size === "small"
+    ? (largeFont ? "text-xs" : "text-[10px]")
+    : (largeFont ? "text-sm" : "text-xs");
 
   return (
     <div className="flex flex-col items-center gap-1.5">
@@ -243,12 +259,12 @@ function EntityIcon({
         <div className={iconSize}>{icon}</div>
       </div>
       <div className="text-center">
-        <p className={`font-medium text-zinc-900 ${size === "small" ? "text-xs" : "text-sm"}`}>{label}</p>
+        <p className={`font-medium text-zinc-900 ${labelSize}`}>{label}</p>
         {sublabel && (
-          <p className={`text-zinc-500 ${size === "small" ? "text-[10px]" : "text-xs"}`}>{sublabel}</p>
+          <p className={`text-zinc-500 ${sublabelSize}`}>{sublabel}</p>
         )}
         {currency && (
-          <span className={`mt-0.5 inline-block rounded-full bg-zinc-100 px-1.5 py-0.5 font-semibold text-zinc-700 ${size === "small" ? "text-[10px]" : "text-xs"}`}>
+          <span className={`mt-0.5 inline-block rounded-full bg-zinc-100 px-1.5 py-0.5 font-semibold text-zinc-700 ${currencySize}`}>
             {currency}
           </span>
         )}
@@ -342,13 +358,13 @@ function BidirectionalFlowArrow({
 }
 
 // CASE 1: Indirect Trading - 상세 플로우
-function Case1DetailedFlow({ lang }: { lang: Language }) {
+function Case1DetailedFlow({ lang, largeFont = false }: { lang: Language; largeFont?: boolean }) {
   const t = translations[lang].flow.case1;
   return (
     <div className="flex flex-col gap-4">
       {/* 계좌개설 & 인앱 연동 섹션 */}
       <div className="rounded-xl bg-zinc-50 p-3 border border-zinc-200">
-        <div className="text-xs font-medium text-zinc-600 mb-2 flex items-center gap-1">
+        <div className={`font-medium text-zinc-600 mb-2 flex items-center gap-1 ${largeFont ? "text-sm" : "text-xs"}`}>
           <span>🤝</span> {t.section1Title}
         </div>
         <div className="flex items-center justify-center overflow-x-auto pb-2">
@@ -358,6 +374,7 @@ function Case1DetailedFlow({ lang }: { lang: Language }) {
             sublabel={t.globalInvestorSub}
             color="slate"
             size="small"
+            largeFont={largeFont}
           />
           <FlowArrow label={t.step1} color="blue" />
           <EntityIcon
@@ -367,6 +384,7 @@ function Case1DetailedFlow({ lang }: { lang: Language }) {
             currency="$"
             color="slate"
             size="small"
+            largeFont={largeFont}
           />
           <FlowArrow label={t.step2} color="blue" />
           <EntityIcon
@@ -375,13 +393,14 @@ function Case1DetailedFlow({ lang }: { lang: Language }) {
             sublabel="NH Global App"
             color="emerald"
             size="small"
+            largeFont={largeFont}
           />
         </div>
       </div>
 
       {/* 주문 & 체결 흐름 (양방향 애니메이션) */}
       <div className="rounded-xl bg-blue-50/50 p-3 border border-blue-100">
-        <div className="text-xs font-medium text-blue-600 mb-2 flex items-center gap-1">
+        <div className={`font-medium text-blue-600 mb-2 flex items-center gap-1 ${largeFont ? "text-sm" : "text-xs"}`}>
           <span>📝</span> {t.section2Title}
         </div>
         <div className="flex items-center justify-center overflow-x-auto pb-2">
@@ -392,6 +411,7 @@ function Case1DetailedFlow({ lang }: { lang: Language }) {
             currency="$"
             color="slate"
             size="small"
+            largeFont={largeFont}
           />
           <BidirectionalFlowArrow orderLabel={t.step3} executionLabel={t.step8} />
           <EntityIcon
@@ -400,6 +420,7 @@ function Case1DetailedFlow({ lang }: { lang: Language }) {
             sublabel="NH Global App"
             color="emerald"
             size="small"
+            largeFont={largeFont}
           />
           <BidirectionalFlowArrow orderLabel={t.step4} executionLabel={t.step7} />
           <EntityIcon
@@ -409,6 +430,7 @@ function Case1DetailedFlow({ lang }: { lang: Language }) {
             currency="₩"
             color="amber"
             size="small"
+            largeFont={largeFont}
           />
           <BidirectionalFlowArrow orderLabel={t.step5} executionLabel={t.step6} />
           <EntityIcon
@@ -417,9 +439,10 @@ function Case1DetailedFlow({ lang }: { lang: Language }) {
             sublabel={t.krxSub}
             color="blue"
             size="small"
+            largeFont={largeFont}
           />
         </div>
-        <div className="mt-2 text-[10px] text-zinc-500 bg-white/50 rounded-lg p-2 flex items-center justify-between">
+        <div className={`mt-2 text-zinc-500 bg-white/50 rounded-lg p-2 flex items-center justify-between ${largeFont ? "text-xs" : "text-[10px]"}`}>
           <div className="flex items-center gap-2">
             <span className="flex items-center gap-1"><span className="inline-block w-3 h-0.5 bg-blue-500"></span> {t.orderLabel}</span>
             <span className="flex items-center gap-1"><span className="inline-block w-3 h-0.5 bg-green-500"></span> {t.execLabel}</span>
@@ -430,7 +453,7 @@ function Case1DetailedFlow({ lang }: { lang: Language }) {
 
       {/* 자금 & 결제 흐름 */}
       <div className="rounded-xl bg-emerald-50/50 p-3 border border-emerald-100">
-        <div className="text-xs font-medium text-emerald-600 mb-2 flex items-center gap-1">
+        <div className={`font-medium text-emerald-600 mb-2 flex items-center gap-1 ${largeFont ? "text-sm" : "text-xs"}`}>
           <span>💰</span> {t.section3Title}
         </div>
         <div className="flex items-center justify-center overflow-x-auto pb-2">
@@ -441,6 +464,7 @@ function Case1DetailedFlow({ lang }: { lang: Language }) {
             currency="$"
             color="slate"
             size="small"
+            largeFont={largeFont}
           />
           <FlowArrow label={t.fundStep1} color="green" />
           <EntityIcon
@@ -449,6 +473,7 @@ function Case1DetailedFlow({ lang }: { lang: Language }) {
             sublabel="State Street, BNY..."
             color="purple"
             size="small"
+            largeFont={largeFont}
           />
           <FlowArrow label={t.fundStep2} color="amber" />
           <EntityIcon
@@ -458,6 +483,7 @@ function Case1DetailedFlow({ lang }: { lang: Language }) {
             currency="₩"
             color="emerald"
             size="small"
+            largeFont={largeFont}
           />
           <FlowArrow label={t.fundStep3} color="amber" />
           <EntityIcon
@@ -466,9 +492,10 @@ function Case1DetailedFlow({ lang }: { lang: Language }) {
             sublabel={t.ksdSub}
             color="slate"
             size="small"
+            largeFont={largeFont}
           />
         </div>
-        <div className="mt-2 text-[10px] text-zinc-500 bg-white/50 rounded-lg p-2">
+        <div className={`mt-2 text-zinc-500 bg-white/50 rounded-lg p-2 ${largeFont ? "text-xs" : "text-[10px]"}`}>
           <span className="font-medium text-emerald-600">💡 {t.omnibusNote}</span> {t.omnibusDesc}
         </div>
       </div>
@@ -477,13 +504,13 @@ function Case1DetailedFlow({ lang }: { lang: Language }) {
 }
 
 // CASE 2: Direct Access - 상세 플로우
-function Case2DetailedFlow({ lang }: { lang: Language }) {
+function Case2DetailedFlow({ lang, largeFont = false }: { lang: Language; largeFont?: boolean }) {
   const t = translations[lang].flow.case2;
   return (
     <div className="flex flex-col gap-4">
       {/* 소개 & 직접 계좌개설 */}
       <div className="rounded-xl bg-zinc-50 p-3 border border-zinc-200">
-        <div className="text-xs font-medium text-zinc-600 mb-2 flex items-center gap-1">
+        <div className={`font-medium text-zinc-600 mb-2 flex items-center gap-1 ${largeFont ? "text-sm" : "text-xs"}`}>
           <span>🤝</span> {t.section1Title}
         </div>
         <div className="flex items-center justify-center overflow-x-auto pb-2">
@@ -493,6 +520,7 @@ function Case2DetailedFlow({ lang }: { lang: Language }) {
             sublabel={t.globalInvestorSub}
             color="teal"
             size="small"
+            largeFont={largeFont}
           />
           <FlowArrow dashed label={t.intro} color="zinc" />
           <EntityIcon
@@ -502,6 +530,7 @@ function Case2DetailedFlow({ lang }: { lang: Language }) {
             currency="$"
             color="slate"
             size="small"
+            largeFont={largeFont}
           />
           <div className="px-2 text-zinc-300">|</div>
           <EntityIcon
@@ -510,6 +539,7 @@ function Case2DetailedFlow({ lang }: { lang: Language }) {
             sublabel={t.globalInvestorDirect}
             color="teal"
             size="small"
+            largeFont={largeFont}
           />
           <FlowArrow label={t.step1} color="blue" />
           <EntityIcon
@@ -518,13 +548,14 @@ function Case2DetailedFlow({ lang }: { lang: Language }) {
             sublabel="NH Global App"
             color="emerald"
             size="small"
+            largeFont={largeFont}
           />
         </div>
       </div>
 
       {/* 주문 & 체결 흐름 (양방향 애니메이션) */}
       <div className="rounded-xl bg-blue-50/50 p-3 border border-blue-100">
-        <div className="text-xs font-medium text-blue-600 mb-2 flex items-center gap-1">
+        <div className={`font-medium text-blue-600 mb-2 flex items-center gap-1 ${largeFont ? "text-sm" : "text-xs"}`}>
           <span>📝</span> {t.section2Title}
         </div>
         <div className="flex items-center justify-center overflow-x-auto pb-2">
@@ -534,6 +565,7 @@ function Case2DetailedFlow({ lang }: { lang: Language }) {
             sublabel="NH Global App"
             color="emerald"
             size="small"
+            largeFont={largeFont}
           />
           <BidirectionalFlowArrow orderLabel={t.step2} executionLabel={t.step5} />
           <EntityIcon
@@ -543,6 +575,7 @@ function Case2DetailedFlow({ lang }: { lang: Language }) {
             currency="₩"
             color="amber"
             size="small"
+            largeFont={largeFont}
           />
           <BidirectionalFlowArrow orderLabel={t.step3} executionLabel={t.step4} />
           <EntityIcon
@@ -551,9 +584,10 @@ function Case2DetailedFlow({ lang }: { lang: Language }) {
             sublabel={t.krxSub}
             color="blue"
             size="small"
+            largeFont={largeFont}
           />
         </div>
-        <div className="mt-2 text-[10px] text-zinc-500 bg-white/50 rounded-lg p-2 flex items-center gap-2">
+        <div className={`mt-2 text-zinc-500 bg-white/50 rounded-lg p-2 flex items-center gap-2 ${largeFont ? "text-xs" : "text-[10px]"}`}>
           <span className="flex items-center gap-1"><span className="inline-block w-3 h-0.5 bg-blue-500"></span> {t.orderLabel}</span>
           <span className="flex items-center gap-1"><span className="inline-block w-3 h-0.5 bg-green-500"></span> {t.execLabel}</span>
         </div>
@@ -561,7 +595,7 @@ function Case2DetailedFlow({ lang }: { lang: Language }) {
 
       {/* 자금 & 결제 흐름 */}
       <div className="rounded-xl bg-emerald-50/50 p-3 border border-emerald-100">
-        <div className="text-xs font-medium text-emerald-600 mb-2 flex items-center gap-1">
+        <div className={`font-medium text-emerald-600 mb-2 flex items-center gap-1 ${largeFont ? "text-sm" : "text-xs"}`}>
           <span>💰</span> {t.section3Title}
         </div>
         <div className="flex items-center justify-center overflow-x-auto pb-2">
@@ -572,6 +606,7 @@ function Case2DetailedFlow({ lang }: { lang: Language }) {
             currency="$"
             color="teal"
             size="small"
+            largeFont={largeFont}
           />
           <FlowArrow label={t.step6} color="green" />
           <EntityIcon
@@ -581,6 +616,7 @@ function Case2DetailedFlow({ lang }: { lang: Language }) {
             currency="₩"
             color="amber"
             size="small"
+            largeFont={largeFont}
           />
           <FlowArrow label={t.step7} color="amber" />
           <EntityIcon
@@ -589,9 +625,10 @@ function Case2DetailedFlow({ lang }: { lang: Language }) {
             sublabel={t.ksdSub}
             color="slate"
             size="small"
+            largeFont={largeFont}
           />
         </div>
-        <div className="mt-2 text-[10px] text-zinc-500 bg-white/50 rounded-lg p-2">
+        <div className={`mt-2 text-zinc-500 bg-white/50 rounded-lg p-2 ${largeFont ? "text-xs" : "text-[10px]"}`}>
           <span className="font-medium text-teal-600">💡 {t.directCustodyNote}</span> {t.directCustodyDesc}
         </div>
       </div>
@@ -700,7 +737,7 @@ export default function TwoPathsToKoreanStocks() {
             highlight={t.case1.highlight}
             largeFont={largeFont}
           >
-            <Case1DetailedFlow lang={lang} />
+            <Case1DetailedFlow lang={lang} largeFont={largeFont} />
           </CaseCard>
 
           <CaseCard
@@ -711,7 +748,7 @@ export default function TwoPathsToKoreanStocks() {
             highlight={t.case2.highlight}
             largeFont={largeFont}
           >
-            <Case2DetailedFlow lang={lang} />
+            <Case2DetailedFlow lang={lang} largeFont={largeFont} />
           </CaseCard>
         </div>
 

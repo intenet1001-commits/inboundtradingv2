@@ -31,7 +31,7 @@ const translations = {
         { label: "Overseas Broker Role", case1: "In-app Integration (Active)", case2: "Introduction Only (Introducer)" },
         { label: "Custody Structure", case1: "Global Custodian → Local Custodian", case2: "NH Investment Direct Custody" },
         { label: "Settlement Method", case1: "Omnibus Account", case2: "Individual Account" },
-        { label: "Recommended For", case1: "Investors wanting to keep existing app", case2: "Investors wanting direct control & lower fees" },
+        { label: "Use Case", case1: "Global Retail Investors", case2: "When VVIPs require trading before omnibus structure is built" },
       ],
     },
     bottom: {
@@ -128,7 +128,7 @@ const translations = {
         { label: "해외 브로커 역할", case1: "인앱 연동 (Active)", case2: "소개만 (Introducer)" },
         { label: "수탁 구조", case1: "글로벌 수탁사 → 로컬 수탁사", case2: "NH투자증권 직접 수탁" },
         { label: "결제 방식", case1: "옴니버스 계좌", case2: "개별 계좌" },
-        { label: "추천 대상", case1: "기존 앱 유지 원하는 투자자", case2: "직접 통제 & 낮은 수수료 원하는 투자자" },
+        { label: "활용", case1: "글로벌 개미", case2: "옴니버스 구축전 VVIP가 거래를 요구할 경우" },
       ],
     },
     bottom: {

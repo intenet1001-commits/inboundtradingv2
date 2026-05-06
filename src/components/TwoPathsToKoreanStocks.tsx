@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import { Building2, User, TrendingUp, ArrowRight, Landmark, Shield, Globe, Wallet, Languages, Type } from "lucide-react";
 
-// Translations
+// Translations — unchanged
 const translations = {
   en: {
     header: {
@@ -222,17 +222,17 @@ function EntityIcon({
   largeFont?: boolean;
 }) {
   const colorClasses = {
-    teal: "bg-teal-100 text-teal-600",
-    amber: "bg-amber-100 text-amber-600",
-    blue: "bg-blue-100 text-blue-600",
-    slate: "bg-slate-100 text-slate-600",
-    emerald: "bg-emerald-100 text-emerald-600",
-    purple: "bg-purple-100 text-purple-600",
+    teal:    "bg-[#DCE9E5] text-[#0B3C39]",
+    amber:   "bg-[#EFE3CE] text-[#8A5A1C]",
+    blue:    "bg-[#DCE9E5] text-[#15524E]",
+    slate:   "bg-[rgba(15,17,21,0.06)] text-[#6E6E73]",
+    emerald: "bg-[#DCE9E5] text-[#0B3C39]",
+    purple:  "bg-[rgba(15,17,21,0.06)] text-[#6E6E73]",
   };
 
   const sizeClasses = {
     default: largeFont ? "h-16 w-16" : "h-14 w-14",
-    small: largeFont ? "h-12 w-12" : "h-10 w-10",
+    small:   largeFont ? "h-12 w-12" : "h-10 w-10",
   };
 
   const iconSize = size === "small"
@@ -247,24 +247,21 @@ function EntityIcon({
     ? (largeFont ? "text-xs" : "text-[10px]")
     : (largeFont ? "text-sm" : "text-xs");
 
-  const currencySize = size === "small"
-    ? (largeFont ? "text-xs" : "text-[10px]")
-    : (largeFont ? "text-sm" : "text-xs");
-
   return (
     <div className="flex flex-col items-center gap-1.5">
-      <div
-        className={`flex items-center justify-center rounded-xl ${colorClasses[color]} ${sizeClasses[size]}`}
-      >
+      <div className={`flex items-center justify-center rounded-lg ${colorClasses[color]} ${sizeClasses[size]}`}>
         <div className={iconSize}>{icon}</div>
       </div>
       <div className="text-center">
-        <p className={`font-medium text-zinc-900 ${labelSize}`}>{label}</p>
+        <p className={`font-semibold tracking-[-0.005em] text-[#0F1115] ${labelSize}`}>{label}</p>
         {sublabel && (
-          <p className={`text-zinc-500 ${sublabelSize}`}>{sublabel}</p>
+          <p className={`text-[#6E6E73] ${sublabelSize}`} style={{ fontFamily: "'JetBrains Mono', monospace" }}>{sublabel}</p>
         )}
         {currency && (
-          <span className={`mt-0.5 inline-block rounded-full bg-zinc-100 px-1.5 py-0.5 font-semibold text-zinc-700 ${currencySize}`}>
+          <span
+            className={`mt-0.5 inline-block rounded-sm bg-[rgba(15,17,21,0.06)] px-1.5 py-0.5 font-medium text-[#6E6E73] ${sublabelSize}`}
+            style={{ fontFamily: "'JetBrains Mono', monospace" }}
+          >
             {currency}
           </span>
         )}
@@ -279,76 +276,87 @@ function FlowArrow({ dashed = false, label, color = "zinc" }: {
   label?: string;
   color?: "zinc" | "blue" | "green" | "amber";
 }) {
-  const colorClasses = {
-    zinc: dashed ? "border-zinc-300" : "bg-zinc-400",
-    blue: dashed ? "border-blue-300" : "bg-blue-400",
-    green: dashed ? "border-green-300" : "bg-green-400",
-    amber: dashed ? "border-amber-300" : "bg-amber-400",
+  const lineColor = {
+    zinc:  dashed ? "rgba(15,17,21,0.18)" : "rgba(15,17,21,0.28)",
+    blue:  dashed ? "rgba(21,82,78,0.35)" : "rgba(21,82,78,0.7)",
+    green: dashed ? "rgba(21,82,78,0.35)" : "rgba(21,82,78,0.7)",
+    amber: dashed ? "rgba(138,90,28,0.35)" : "rgba(138,90,28,0.7)",
   };
 
-  const arrowColor = {
-    zinc: dashed ? "text-zinc-300" : "text-zinc-400",
-    blue: dashed ? "text-blue-300" : "text-blue-400",
-    green: dashed ? "text-green-300" : "text-green-400",
-    amber: dashed ? "text-amber-300" : "text-amber-400",
+  const arrowFill = {
+    zinc:  dashed ? "rgba(15,17,21,0.22)" : "rgba(15,17,21,0.32)",
+    blue:  dashed ? "rgba(21,82,78,0.4)" : "#15524E",
+    green: dashed ? "rgba(21,82,78,0.4)" : "#15524E",
+    amber: dashed ? "rgba(138,90,28,0.4)" : "#8A5A1C",
   };
 
   return (
     <div className="flex flex-col items-center justify-center px-1">
       <div className="flex items-center">
-        <div
-          className={`h-0.5 w-6 ${dashed ? `border-t-2 border-dashed ${colorClasses[color]}` : colorClasses[color]}`}
-        />
-        <ArrowRight className={`h-3 w-3 ${arrowColor[color]}`} />
+        {dashed ? (
+          <svg width="28" height="4" className="overflow-visible mr-0.5">
+            <line x1="0" y1="2" x2="28" y2="2" stroke={lineColor[color]} strokeWidth="1.5" strokeDasharray="4,3" />
+          </svg>
+        ) : (
+          <div className="h-0.5 w-6" style={{ background: lineColor[color] }} />
+        )}
+        <svg width="8" height="10" className="overflow-visible">
+          <polygon points="0,0 8,5 0,10" fill={arrowFill[color]} />
+        </svg>
       </div>
       {label && (
-        <span className="text-[9px] text-zinc-500 mt-0.5 whitespace-nowrap">{label}</span>
+        <span
+          className="text-[9px] text-[#6E6E73] mt-0.5 whitespace-nowrap"
+          style={{ fontFamily: "'JetBrains Mono', monospace" }}
+        >
+          {label}
+        </span>
       )}
     </div>
   );
 }
 
-// Bidirectional Flow Arrow Component - 양방향 주문/체결 애니메이션
+// Bidirectional Flow Arrow — keep animation, update colors to editorial palette
 function BidirectionalFlowArrow({
   orderLabel,
-  executionLabel
+  executionLabel,
 }: {
   orderLabel: string;
   executionLabel: string;
 }) {
   return (
     <div className="flex flex-col items-center justify-center px-1 py-1">
-      {/* 상단: 주문 흐름 (오른쪽 →) */}
+      {/* Order flow (right →) */}
       <div className="flex items-center gap-0.5">
         <svg width="40" height="8" className="overflow-visible">
           <line
-            x1="0"
-            y1="4"
-            x2="32"
-            y2="4"
-            stroke="#3b82f6"
-            strokeWidth="2"
-            strokeDasharray="5,5"
+            x1="0" y1="4" x2="32" y2="4"
+            stroke="#15524E" strokeWidth="2" strokeDasharray="5,5"
             className="animate-flow-right"
           />
-          <polygon points="32,0 40,4 32,8" fill="#3b82f6" />
+          <polygon points="32,0 40,4 32,8" fill="#15524E" />
         </svg>
-        <span className="text-[8px] text-blue-500 whitespace-nowrap ml-0.5">{orderLabel}</span>
+        <span
+          className="text-[8px] whitespace-nowrap ml-0.5 text-[#15524E]"
+          style={{ fontFamily: "'JetBrains Mono', monospace" }}
+        >
+          {orderLabel}
+        </span>
       </div>
 
-      {/* 하단: 체결 흐름 (왼쪽 ←) */}
+      {/* Execution flow (left ←) */}
       <div className="flex items-center gap-0.5 mt-1">
-        <span className="text-[8px] text-green-500 whitespace-nowrap mr-0.5">{executionLabel}</span>
+        <span
+          className="text-[8px] whitespace-nowrap mr-0.5 text-[#8A5A1C]"
+          style={{ fontFamily: "'JetBrains Mono', monospace" }}
+        >
+          {executionLabel}
+        </span>
         <svg width="40" height="8" className="overflow-visible">
-          <polygon points="8,0 0,4 8,8" fill="#22c55e" />
+          <polygon points="8,0 0,4 8,8" fill="#8A5A1C" />
           <line
-            x1="8"
-            y1="4"
-            x2="40"
-            y2="4"
-            stroke="#22c55e"
-            strokeWidth="2"
-            strokeDasharray="5,5"
+            x1="8" y1="4" x2="40" y2="4"
+            stroke="#8A5A1C" strokeWidth="2" strokeDasharray="5,5"
             className="animate-flow-left"
           />
         </svg>
@@ -357,286 +365,162 @@ function BidirectionalFlowArrow({
   );
 }
 
-// CASE 1: Indirect Trading - 상세 플로우
+// CASE 1: Indirect Trading — detailed flow
 function Case1DetailedFlow({ lang, largeFont = false }: { lang: Language; largeFont?: boolean }) {
   const t = translations[lang].flow.case1;
+  const sectionLabelSize = largeFont ? "text-xs" : "text-[10.5px]";
+  const noteSize = largeFont ? "text-xs" : "text-[10px]";
+
   return (
-    <div className="flex flex-col gap-4">
-      {/* 계좌개설 & 인앱 연동 섹션 */}
-      <div className="rounded-xl bg-zinc-50 p-3 border border-zinc-200">
-        <div className={`font-medium text-zinc-600 mb-2 flex items-center gap-1 ${largeFont ? "text-sm" : "text-xs"}`}>
-          <span>🤝</span> {t.section1Title}
+    <div className="flex flex-col gap-3">
+      {/* 계좌개설 & 인앱 연동 */}
+      <div className="rounded-sm border border-[rgba(15,17,21,0.08)] bg-[rgba(15,17,21,0.03)] p-3">
+        <div
+          className={`mb-2 flex items-center gap-1.5 font-semibold tracking-[0.08em] uppercase text-[#6E6E73] ${sectionLabelSize}`}
+          style={{ fontFamily: "'JetBrains Mono', monospace" }}
+        >
+          {t.section1Title}
         </div>
         <div className="flex items-center justify-center overflow-x-auto pb-2">
-          <EntityIcon
-            icon={<User className="h-full w-full" />}
-            label={t.globalInvestor}
-            sublabel={t.globalInvestorSub}
-            color="slate"
-            size="small"
-            largeFont={largeFont}
-          />
+          <EntityIcon icon={<User className="h-full w-full" />} label={t.globalInvestor} sublabel={t.globalInvestorSub} color="slate" size="small" largeFont={largeFont} />
           <FlowArrow label={t.step1} color="blue" />
-          <EntityIcon
-            icon={<Globe className="h-full w-full" />}
-            label={t.overseasBroker}
-            sublabel="Robinhood, Webull..."
-            currency="$"
-            color="slate"
-            size="small"
-            largeFont={largeFont}
-          />
+          <EntityIcon icon={<Globe className="h-full w-full" />} label={t.overseasBroker} sublabel="Robinhood, Webull..." currency="$" color="slate" size="small" largeFont={largeFont} />
           <FlowArrow label={t.step2} color="blue" />
-          <EntityIcon
-            icon={<Building2 className="h-full w-full" />}
-            label="NH namuh"
-            sublabel="NH Global App"
-            color="emerald"
-            size="small"
-            largeFont={largeFont}
-          />
+          <EntityIcon icon={<Building2 className="h-full w-full" />} label="NH namuh" sublabel="NH Global App" color="teal" size="small" largeFont={largeFont} />
         </div>
       </div>
 
-      {/* 주문 & 체결 흐름 (양방향 애니메이션) */}
-      <div className="rounded-xl bg-blue-50/50 p-3 border border-blue-100">
-        <div className={`font-medium text-blue-600 mb-2 flex items-center gap-1 ${largeFont ? "text-sm" : "text-xs"}`}>
-          <span>📝</span> {t.section2Title}
+      {/* 주문 & 체결 흐름 */}
+      <div className="rounded-sm border border-[rgba(21,82,78,0.15)] bg-[rgba(21,82,78,0.04)] p-3">
+        <div
+          className={`mb-2 flex items-center gap-1.5 font-semibold tracking-[0.08em] uppercase text-[#15524E] ${sectionLabelSize}`}
+          style={{ fontFamily: "'JetBrains Mono', monospace" }}
+        >
+          {t.section2Title}
         </div>
         <div className="flex items-center justify-center overflow-x-auto pb-2">
-          <EntityIcon
-            icon={<Globe className="h-full w-full" />}
-            label={t.overseasBrokerApp}
-            sublabel="Robinhood, Webull..."
-            currency="$"
-            color="slate"
-            size="small"
-            largeFont={largeFont}
-          />
+          <EntityIcon icon={<Globe className="h-full w-full" />} label={t.overseasBrokerApp} sublabel="Robinhood, Webull..." currency="$" color="slate" size="small" largeFont={largeFont} />
           <BidirectionalFlowArrow orderLabel={t.step3} executionLabel={t.step8} />
-          <EntityIcon
-            icon={<Building2 className="h-full w-full" />}
-            label="NH namuh"
-            sublabel="NH Global App"
-            color="emerald"
-            size="small"
-            largeFont={largeFont}
-          />
+          <EntityIcon icon={<Building2 className="h-full w-full" />} label="NH namuh" sublabel="NH Global App" color="teal" size="small" largeFont={largeFont} />
           <BidirectionalFlowArrow orderLabel={t.step4} executionLabel={t.step7} />
-          <EntityIcon
-            icon={<Landmark className="h-full w-full" />}
-            label={t.nhSecurities}
-            sublabel="Korean Securities"
-            currency="₩"
-            color="amber"
-            size="small"
-            largeFont={largeFont}
-          />
+          <EntityIcon icon={<Landmark className="h-full w-full" />} label={t.nhSecurities} sublabel="Korean Securities" currency="₩" color="amber" size="small" largeFont={largeFont} />
           <BidirectionalFlowArrow orderLabel={t.step5} executionLabel={t.step6} />
-          <EntityIcon
-            icon={<TrendingUp className="h-full w-full" />}
-            label="KRX"
-            sublabel={t.krxSub}
-            color="blue"
-            size="small"
-            largeFont={largeFont}
-          />
+          <EntityIcon icon={<TrendingUp className="h-full w-full" />} label="KRX" sublabel={t.krxSub} color="blue" size="small" largeFont={largeFont} />
         </div>
-        <div className={`mt-2 text-zinc-500 bg-white/50 rounded-lg p-2 flex items-center justify-between ${largeFont ? "text-xs" : "text-[10px]"}`}>
-          <div className="flex items-center gap-2">
-            <span className="flex items-center gap-1"><span className="inline-block w-3 h-0.5 bg-blue-500"></span> {t.orderLabel}</span>
-            <span className="flex items-center gap-1"><span className="inline-block w-3 h-0.5 bg-green-500"></span> {t.execLabel}</span>
+        <div className={`mt-2 flex items-center justify-between rounded-sm bg-[rgba(255,255,255,0.55)] p-2 text-[rgba(15,17,21,0.5)] ${noteSize}`}>
+          <div className="flex items-center gap-3">
+            <span className="flex items-center gap-1">
+              <span className="inline-block h-0.5 w-3 bg-[#15524E]" /> {t.orderLabel}
+            </span>
+            <span className="flex items-center gap-1">
+              <span className="inline-block h-0.5 w-3 bg-[#8A5A1C]" /> {t.execLabel}
+            </span>
           </div>
-          <span className="font-medium text-blue-600">🔄 {t.realtimeSync}</span>
+          <span className="font-medium text-[#15524E]">🔄 {t.realtimeSync}</span>
         </div>
       </div>
 
       {/* 자금 & 결제 흐름 */}
-      <div className="rounded-xl bg-emerald-50/50 p-3 border border-emerald-100">
-        <div className={`font-medium text-emerald-600 mb-2 flex items-center gap-1 ${largeFont ? "text-sm" : "text-xs"}`}>
-          <span>💰</span> {t.section3Title}
+      <div className="rounded-sm border border-[rgba(138,90,28,0.15)] bg-[rgba(138,90,28,0.04)] p-3">
+        <div
+          className={`mb-2 flex items-center gap-1.5 font-semibold tracking-[0.08em] uppercase text-[#8A5A1C] ${sectionLabelSize}`}
+          style={{ fontFamily: "'JetBrains Mono', monospace" }}
+        >
+          {t.section3Title}
         </div>
         <div className="flex items-center justify-center overflow-x-auto pb-2">
-          <EntityIcon
-            icon={<Globe className="h-full w-full" />}
-            label={t.overseasBroker}
-            sublabel="Global Broker"
-            currency="$"
-            color="slate"
-            size="small"
-            largeFont={largeFont}
-          />
+          <EntityIcon icon={<Globe className="h-full w-full" />} label={t.overseasBroker} sublabel="Global Broker" currency="$" color="slate" size="small" largeFont={largeFont} />
           <FlowArrow label={t.fundStep1} color="green" />
-          <EntityIcon
-            icon={<Wallet className="h-full w-full" />}
-            label={t.globalCustodian}
-            sublabel="State Street, BNY..."
-            color="purple"
-            size="small"
-            largeFont={largeFont}
-          />
+          <EntityIcon icon={<Wallet className="h-full w-full" />} label={t.globalCustodian} sublabel="State Street, BNY..." color="purple" size="small" largeFont={largeFont} />
           <FlowArrow label={t.fundStep2} color="amber" />
-          <EntityIcon
-            icon={<Building2 className="h-full w-full" />}
-            label={t.localCustodian}
-            sublabel={t.localCustodianSub}
-            currency="₩"
-            color="emerald"
-            size="small"
-            largeFont={largeFont}
-          />
+          <EntityIcon icon={<Building2 className="h-full w-full" />} label={t.localCustodian} sublabel={t.localCustodianSub} currency="₩" color="teal" size="small" largeFont={largeFont} />
           <FlowArrow label={t.fundStep3} color="amber" />
-          <EntityIcon
-            icon={<Shield className="h-full w-full" />}
-            label="KSD"
-            sublabel={t.ksdSub}
-            color="slate"
-            size="small"
-            largeFont={largeFont}
-          />
+          <EntityIcon icon={<Shield className="h-full w-full" />} label="KSD" sublabel={t.ksdSub} color="slate" size="small" largeFont={largeFont} />
         </div>
-        <div className={`mt-2 text-zinc-500 bg-white/50 rounded-lg p-2 ${largeFont ? "text-xs" : "text-[10px]"}`}>
-          <span className="font-medium text-emerald-600">💡 {t.omnibusNote}</span> {t.omnibusDesc}
+        <div className={`mt-2 rounded-sm bg-[rgba(255,255,255,0.55)] p-2 text-[rgba(15,17,21,0.5)] ${noteSize}`}>
+          <span className="font-medium text-[#8A5A1C]">💡 {t.omnibusNote}</span> {t.omnibusDesc}
         </div>
       </div>
     </div>
   );
 }
 
-// CASE 2: Direct Access - 상세 플로우
+// CASE 2: Direct Access — detailed flow
 function Case2DetailedFlow({ lang, largeFont = false }: { lang: Language; largeFont?: boolean }) {
   const t = translations[lang].flow.case2;
+  const sectionLabelSize = largeFont ? "text-xs" : "text-[10.5px]";
+  const noteSize = largeFont ? "text-xs" : "text-[10px]";
+
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-3">
       {/* 소개 & 직접 계좌개설 */}
-      <div className="rounded-xl bg-zinc-50 p-3 border border-zinc-200">
-        <div className={`font-medium text-zinc-600 mb-2 flex items-center gap-1 ${largeFont ? "text-sm" : "text-xs"}`}>
-          <span>🤝</span> {t.section1Title}
+      <div className="rounded-sm border border-[rgba(15,17,21,0.08)] bg-[rgba(15,17,21,0.03)] p-3">
+        <div
+          className={`mb-2 flex items-center gap-1.5 font-semibold tracking-[0.08em] uppercase text-[#6E6E73] ${sectionLabelSize}`}
+          style={{ fontFamily: "'JetBrains Mono', monospace" }}
+        >
+          {t.section1Title}
         </div>
         <div className="flex items-center justify-center overflow-x-auto pb-2">
-          <EntityIcon
-            icon={<User className="h-full w-full" />}
-            label={t.globalInvestor}
-            sublabel={t.globalInvestorSub}
-            color="teal"
-            size="small"
-            largeFont={largeFont}
-          />
+          <EntityIcon icon={<User className="h-full w-full" />} label={t.globalInvestor} sublabel={t.globalInvestorSub} color="teal" size="small" largeFont={largeFont} />
           <FlowArrow dashed label={t.intro} color="zinc" />
-          <EntityIcon
-            icon={<Globe className="h-full w-full" />}
-            label={t.overseasBroker}
-            sublabel="Introducer Only"
-            currency="$"
-            color="slate"
-            size="small"
-            largeFont={largeFont}
-          />
-          <div className="px-2 text-zinc-300">|</div>
-          <EntityIcon
-            icon={<User className="h-full w-full" />}
-            label={t.globalInvestor}
-            sublabel={t.globalInvestorDirect}
-            color="teal"
-            size="small"
-            largeFont={largeFont}
-          />
+          <EntityIcon icon={<Globe className="h-full w-full" />} label={t.overseasBroker} sublabel="Introducer Only" currency="$" color="slate" size="small" largeFont={largeFont} />
+          <div className="px-2 text-[rgba(15,17,21,0.15)] text-lg select-none">|</div>
+          <EntityIcon icon={<User className="h-full w-full" />} label={t.globalInvestor} sublabel={t.globalInvestorDirect} color="teal" size="small" largeFont={largeFont} />
           <FlowArrow label={t.step1} color="blue" />
-          <EntityIcon
-            icon={<Building2 className="h-full w-full" />}
-            label="NH namuh"
-            sublabel="NH Global App"
-            color="emerald"
-            size="small"
-            largeFont={largeFont}
-          />
+          <EntityIcon icon={<Building2 className="h-full w-full" />} label="NH namuh" sublabel="NH Global App" color="teal" size="small" largeFont={largeFont} />
         </div>
       </div>
 
-      {/* 주문 & 체결 흐름 (양방향 애니메이션) */}
-      <div className="rounded-xl bg-blue-50/50 p-3 border border-blue-100">
-        <div className={`font-medium text-blue-600 mb-2 flex items-center gap-1 ${largeFont ? "text-sm" : "text-xs"}`}>
-          <span>📝</span> {t.section2Title}
+      {/* 주문 & 체결 흐름 */}
+      <div className="rounded-sm border border-[rgba(21,82,78,0.15)] bg-[rgba(21,82,78,0.04)] p-3">
+        <div
+          className={`mb-2 flex items-center gap-1.5 font-semibold tracking-[0.08em] uppercase text-[#15524E] ${sectionLabelSize}`}
+          style={{ fontFamily: "'JetBrains Mono', monospace" }}
+        >
+          {t.section2Title}
         </div>
         <div className="flex items-center justify-center overflow-x-auto pb-2">
-          <EntityIcon
-            icon={<Building2 className="h-full w-full" />}
-            label="NH namuh"
-            sublabel="NH Global App"
-            color="emerald"
-            size="small"
-            largeFont={largeFont}
-          />
+          <EntityIcon icon={<Building2 className="h-full w-full" />} label="NH namuh" sublabel="NH Global App" color="teal" size="small" largeFont={largeFont} />
           <BidirectionalFlowArrow orderLabel={t.step2} executionLabel={t.step5} />
-          <EntityIcon
-            icon={<Landmark className="h-full w-full" />}
-            label={t.nhSecurities}
-            sublabel="Korean Securities"
-            currency="₩"
-            color="amber"
-            size="small"
-            largeFont={largeFont}
-          />
+          <EntityIcon icon={<Landmark className="h-full w-full" />} label={t.nhSecurities} sublabel="Korean Securities" currency="₩" color="amber" size="small" largeFont={largeFont} />
           <BidirectionalFlowArrow orderLabel={t.step3} executionLabel={t.step4} />
-          <EntityIcon
-            icon={<TrendingUp className="h-full w-full" />}
-            label="KRX"
-            sublabel={t.krxSub}
-            color="blue"
-            size="small"
-            largeFont={largeFont}
-          />
+          <EntityIcon icon={<TrendingUp className="h-full w-full" />} label="KRX" sublabel={t.krxSub} color="blue" size="small" largeFont={largeFont} />
         </div>
-        <div className={`mt-2 text-zinc-500 bg-white/50 rounded-lg p-2 flex items-center gap-2 ${largeFont ? "text-xs" : "text-[10px]"}`}>
-          <span className="flex items-center gap-1"><span className="inline-block w-3 h-0.5 bg-blue-500"></span> {t.orderLabel}</span>
-          <span className="flex items-center gap-1"><span className="inline-block w-3 h-0.5 bg-green-500"></span> {t.execLabel}</span>
+        <div className={`mt-2 flex items-center gap-3 rounded-sm bg-[rgba(255,255,255,0.55)] p-2 text-[rgba(15,17,21,0.5)] ${noteSize}`}>
+          <span className="flex items-center gap-1">
+            <span className="inline-block h-0.5 w-3 bg-[#15524E]" /> {t.orderLabel}
+          </span>
+          <span className="flex items-center gap-1">
+            <span className="inline-block h-0.5 w-3 bg-[#8A5A1C]" /> {t.execLabel}
+          </span>
         </div>
       </div>
 
       {/* 자금 & 결제 흐름 */}
-      <div className="rounded-xl bg-emerald-50/50 p-3 border border-emerald-100">
-        <div className={`font-medium text-emerald-600 mb-2 flex items-center gap-1 ${largeFont ? "text-sm" : "text-xs"}`}>
-          <span>💰</span> {t.section3Title}
+      <div className="rounded-sm border border-[rgba(138,90,28,0.15)] bg-[rgba(138,90,28,0.04)] p-3">
+        <div
+          className={`mb-2 flex items-center gap-1.5 font-semibold tracking-[0.08em] uppercase text-[#8A5A1C] ${sectionLabelSize}`}
+          style={{ fontFamily: "'JetBrains Mono', monospace" }}
+        >
+          {t.section3Title}
         </div>
         <div className="flex items-center justify-center overflow-x-auto pb-2">
-          <EntityIcon
-            icon={<User className="h-full w-full" />}
-            label={t.globalInvestor}
-            sublabel={t.directTransfer}
-            currency="$"
-            color="teal"
-            size="small"
-            largeFont={largeFont}
-          />
+          <EntityIcon icon={<User className="h-full w-full" />} label={t.globalInvestor} sublabel={t.directTransfer} currency="$" color="teal" size="small" largeFont={largeFont} />
           <FlowArrow label={t.step6} color="green" />
-          <EntityIcon
-            icon={<Building2 className="h-full w-full" />}
-            label={t.nhSecurities}
-            sublabel={t.nhSecuritiesSub}
-            currency="₩"
-            color="amber"
-            size="small"
-            largeFont={largeFont}
-          />
+          <EntityIcon icon={<Building2 className="h-full w-full" />} label={t.nhSecurities} sublabel={t.nhSecuritiesSub} currency="₩" color="amber" size="small" largeFont={largeFont} />
           <FlowArrow label={t.step7} color="amber" />
-          <EntityIcon
-            icon={<Shield className="h-full w-full" />}
-            label="KSD"
-            sublabel={t.ksdSub}
-            color="slate"
-            size="small"
-            largeFont={largeFont}
-          />
+          <EntityIcon icon={<Shield className="h-full w-full" />} label="KSD" sublabel={t.ksdSub} color="slate" size="small" largeFont={largeFont} />
         </div>
-        <div className={`mt-2 text-zinc-500 bg-white/50 rounded-lg p-2 ${largeFont ? "text-xs" : "text-[10px]"}`}>
-          <span className="font-medium text-teal-600">💡 {t.directCustodyNote}</span> {t.directCustodyDesc}
+        <div className={`mt-2 rounded-sm bg-[rgba(255,255,255,0.55)] p-2 text-[rgba(15,17,21,0.5)] ${noteSize}`}>
+          <span className="font-medium text-[#15524E]">💡 {t.directCustodyNote}</span> {t.directCustodyDesc}
         </div>
       </div>
     </div>
   );
 }
 
-// Case Card Component
+// Case Card — editorial style
 function CaseCard({
   caseNumber,
   title,
@@ -654,31 +538,50 @@ function CaseCard({
   children: React.ReactNode;
   largeFont?: boolean;
 }) {
+  const chipStyle = caseNumber === 1
+    ? { background: "#EFE3CE", color: "#5C3D11", border: "1px solid rgba(138,90,28,0.25)" }
+    : { background: "#DCE9E5", color: "#0B3C39", border: "1px solid rgba(21,82,78,0.2)" };
+
   return (
-    <div className="flex flex-col rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm transition-shadow hover:shadow-md">
-      {/* Header */}
-      <div className="mb-4">
-        <div className="mb-2 flex items-center gap-2">
-          <span className={`rounded-full bg-zinc-900 px-3 py-1 font-semibold text-white ${largeFont ? "text-sm" : "text-xs"}`}>
+    <div
+      className="flex flex-col overflow-hidden border border-[rgba(15,17,21,0.10)] bg-[#FBF8F2]"
+      style={{ boxShadow: "0 1px 0 rgba(15,17,21,0.04), 0 20px 40px -24px rgba(15,17,21,0.12)" }}
+    >
+      {/* Case head */}
+      <div className="border-b border-[rgba(15,17,21,0.10)] px-7 py-6">
+        <div className="mb-3 flex items-center gap-2">
+          <span
+            className="px-2.5 py-1 text-[10px] tracking-[0.14em] uppercase text-[#F6F2EA] bg-[#0F1115]"
+            style={{ fontFamily: "'JetBrains Mono', monospace" }}
+          >
             CASE {caseNumber}
           </span>
           {highlight && (
-            <span className={`rounded-full bg-teal-100 px-3 py-1 font-semibold text-teal-700 ${largeFont ? "text-sm" : "text-xs"}`}>
+            <span
+              className="px-2.5 py-1 text-[10px] tracking-[0.06em] uppercase"
+              style={{ fontFamily: "'JetBrains Mono', monospace", ...chipStyle }}
+            >
               {highlight}
             </span>
           )}
         </div>
-        <h3 className={`font-semibold text-zinc-900 ${largeFont ? "text-xl" : "text-lg"}`}>{title}</h3>
-        <p className={`text-zinc-500 ${largeFont ? "text-base" : "text-sm"}`}>{subtitle}</p>
+        <h3 className={`font-semibold tracking-[-0.015em] text-[#0F1115] ${largeFont ? "text-xl" : "text-lg"}`}>
+          {title}
+        </h3>
+        <p className={`mt-1 text-[#6E6E73] ${largeFont ? "text-base" : "text-sm"}`}>{subtitle}</p>
       </div>
 
-      {/* Flow Diagram */}
-      <div className="mb-4 flex-1">
+      {/* Flow diagram */}
+      <div className="flex-1 p-5">
         {children}
       </div>
 
-      {/* Description */}
-      <p className={`leading-relaxed text-zinc-600 border-t border-zinc-100 pt-4 ${largeFont ? "text-base" : "text-sm"}`}>{description}</p>
+      {/* Description footer */}
+      <div className="border-t border-[rgba(15,17,21,0.10)] bg-[rgba(15,17,21,0.02)] px-7 py-5">
+        <p className={`leading-relaxed text-[#2A2D33] ${largeFont ? "text-base" : "text-sm"}`}>
+          {description}
+        </p>
+      </div>
     </div>
   );
 }
@@ -688,47 +591,76 @@ export default function TwoPathsToKoreanStocks() {
   const [largeFont, setLargeFont] = useState(false);
   const t = translations[lang];
 
+  const pillBase =
+    "flex items-center gap-2 rounded-full border px-[14px] transition-all cursor-pointer";
+  const pillInactive =
+    "border-[rgba(15,17,21,0.22)] bg-transparent text-[#2A2D33] hover:bg-[#0F1115] hover:text-[#F6F2EA] hover:border-[#0F1115]";
+  const pillActive =
+    "border-[#0F1115] bg-[#0F1115] text-[#F6F2EA]";
+
   return (
-    <section className="w-full bg-zinc-50 px-4 py-12">
+    <section
+      className="w-full min-h-screen bg-[#F6F2EA] px-4 py-12"
+      style={{ fontFamily: "'Pretendard Variable', Pretendard, 'Inter Tight', system-ui, sans-serif" }}
+    >
       <div className="mx-auto max-w-7xl">
-        {/* Toggle Buttons */}
-        <div className="mb-6 flex justify-end gap-2">
+
+        {/* Top bar — toggles */}
+        <div className="mb-12 flex justify-end gap-2 border-b border-[rgba(15,17,21,0.10)] pb-7">
           <button
             onClick={() => setLang(lang === "en" ? "ko" : "en")}
-            className={`flex items-center gap-1.5 rounded-full px-4 py-2 font-medium transition-all ${
-              lang === "ko"
-                ? "bg-teal-500 text-white shadow-md"
-                : "bg-white text-zinc-700 border border-zinc-200 hover:bg-zinc-50"
-            } ${largeFont ? "text-base" : "text-sm"}`}
+            className={`${pillBase} ${lang === "ko" ? pillActive : pillInactive} ${largeFont ? "h-10 text-base" : "h-[34px] text-[12.5px]"}`}
           >
             <Languages className={largeFont ? "h-5 w-5" : "h-4 w-4"} />
             {t.toggles.language}
           </button>
           <button
             onClick={() => setLargeFont(!largeFont)}
-            className={`flex items-center gap-1.5 rounded-full px-4 py-2 font-medium transition-all ${
-              largeFont
-                ? "bg-blue-500 text-white shadow-md"
-                : "bg-white text-zinc-700 border border-zinc-200 hover:bg-zinc-50"
-            } ${largeFont ? "text-base" : "text-sm"}`}
+            className={`${pillBase} ${largeFont ? pillActive : pillInactive} ${largeFont ? "h-10 text-base" : "h-[34px] text-[12.5px]"}`}
           >
             <Type className={largeFont ? "h-5 w-5" : "h-4 w-4"} />
             {t.toggles.largeFont}
           </button>
         </div>
 
-        {/* Header */}
-        <div className="mb-10 text-center">
-          <h2 className={`mb-3 font-bold tracking-tight text-zinc-900 ${largeFont ? "text-4xl sm:text-5xl" : "text-3xl sm:text-4xl"}`}>
+        {/* Hero header */}
+        <div className="mb-12">
+          <div className="mb-7 flex items-center gap-3">
+            <span className="h-px w-7 bg-[#0F1115]" />
+            <span
+              className="text-[11px] tracking-[0.18em] uppercase text-[#6E6E73]"
+              style={{ fontFamily: "'JetBrains Mono', monospace" }}
+            >
+              GLOBAL INVESTOR ROUTES
+            </span>
+          </div>
+          <h2
+            className="font-medium leading-[1.0] tracking-[-0.03em] text-[#0F1115] mb-5"
+            style={{ fontSize: largeFont ? "clamp(36px,5.5vw,72px)" : "clamp(28px,4.5vw,60px)" }}
+          >
             {t.header.title}
           </h2>
-          <p className={`mx-auto max-w-2xl text-zinc-600 ${largeFont ? "text-xl" : "text-lg"}`}>
+          <p
+            className="leading-[1.55] text-[#2A2D33] max-w-2xl"
+            style={{ fontSize: largeFont ? "18px" : "16.5px" }}
+          >
             {t.header.subtitle}
           </p>
         </div>
 
+        {/* Section rule 01 */}
+        <div className="mb-8 mt-2 flex items-baseline justify-between border-t border-[#1F1F22] pt-3.5">
+          <span
+            className="text-xs tracking-[0.1em] text-[#0F1115]"
+            style={{ fontFamily: "'JetBrains Mono', monospace" }}
+          >
+            01
+          </span>
+          <span className="text-[13px] tracking-[0.04em] text-[#6E6E73]">INVESTMENT PATHS</span>
+        </div>
+
         {/* Case Cards */}
-        <div className="mb-10 grid gap-6 lg:grid-cols-2">
+        <div className="mb-12 grid gap-5 lg:grid-cols-2">
           <CaseCard
             caseNumber={1}
             title={t.case1.title}
@@ -752,22 +684,49 @@ export default function TwoPathsToKoreanStocks() {
           </CaseCard>
         </div>
 
+        {/* Section rule 02 */}
+        <div className="mb-8 mt-2 flex items-baseline justify-between border-t border-[#1F1F22] pt-3.5">
+          <span
+            className="text-xs tracking-[0.1em] text-[#0F1115]"
+            style={{ fontFamily: "'JetBrains Mono', monospace" }}
+          >
+            02
+          </span>
+          <span className="text-[13px] tracking-[0.04em] text-[#6E6E73]">SIDE-BY-SIDE</span>
+        </div>
+
         {/* Comparison Table */}
-        <div className="mb-10 overflow-hidden rounded-2xl border border-zinc-200 bg-white">
+        <div className="mb-10 overflow-hidden border border-[rgba(15,17,21,0.10)]">
           <div className={`grid grid-cols-3 ${largeFont ? "text-base" : "text-sm"}`}>
-            <div className="bg-zinc-50 p-4 font-medium text-zinc-700 border-b border-zinc-200">{t.comparison.header}</div>
-            <div className="bg-zinc-50 p-4 font-medium text-zinc-700 border-b border-l border-zinc-200 text-center">{t.comparison.case1Header}</div>
-            <div className="bg-zinc-50 p-4 font-medium text-zinc-700 border-b border-l border-zinc-200 text-center">{t.comparison.case2Header}</div>
+            {/* Header row — ink black */}
+            <div
+              className="border-b border-[rgba(255,255,255,0.08)] bg-[#0F1115] p-5 text-[10.5px] tracking-[0.12em] uppercase text-[rgba(246,242,234,0.55)]"
+              style={{ fontFamily: "'JetBrains Mono', monospace" }}
+            >
+              {t.comparison.header}
+            </div>
+            <div className="border-b border-l border-[rgba(255,255,255,0.08)] bg-[#0F1115] p-5 text-center font-semibold text-[#F6F2EA]">
+              {t.comparison.case1Header}
+            </div>
+            <div className="border-b border-l border-[rgba(255,255,255,0.08)] bg-[#0F1115] p-5 text-center font-semibold text-[#F6F2EA]">
+              {t.comparison.case2Header}
+            </div>
 
             {t.comparison.rows.map((row, index) => (
               <React.Fragment key={index}>
-                <div className={`p-4 text-zinc-600 ${index < t.comparison.rows.length - 1 ? "border-b border-zinc-100" : ""}`}>
+                <div
+                  className={`bg-[#FBF8F2] p-5 text-[#6E6E73] ${index < t.comparison.rows.length - 1 ? "border-b border-[rgba(15,17,21,0.07)]" : ""}`}
+                >
                   {row.label}
                 </div>
-                <div className={`p-4 text-zinc-900 border-l text-center ${index < t.comparison.rows.length - 1 ? "border-b border-zinc-100" : "border-zinc-100"}`}>
+                <div
+                  className={`p-5 text-center text-[#0F1115] border-l border-[rgba(15,17,21,0.07)] ${index < t.comparison.rows.length - 1 ? "border-b border-[rgba(15,17,21,0.07)]" : ""}`}
+                >
                   {row.case1}
                 </div>
-                <div className={`p-4 text-zinc-900 border-l text-center ${index < t.comparison.rows.length - 1 ? "border-b border-zinc-100" : "border-zinc-100"}`}>
+                <div
+                  className={`p-5 text-center text-[#0F1115] border-l border-[rgba(15,17,21,0.07)] ${index < t.comparison.rows.length - 1 ? "border-b border-[rgba(15,17,21,0.07)]" : ""}`}
+                >
                   {row.case2}
                 </div>
               </React.Fragment>
@@ -775,13 +734,16 @@ export default function TwoPathsToKoreanStocks() {
           </div>
         </div>
 
-        {/* Bottom Message */}
-        <div className="rounded-xl bg-gradient-to-r from-teal-500 to-blue-500 p-8 text-center text-white">
-          <h3 className={`mb-2 font-semibold ${largeFont ? "text-2xl" : "text-xl"}`}>{t.bottom.title}</h3>
-          <p className={`mx-auto max-w-2xl text-white/90 ${largeFont ? "text-base" : "text-sm"}`}>
+        {/* Bottom — ink black, no gradient */}
+        <div className="bg-[#0F1115] p-10 text-center">
+          <h3 className={`mb-3 font-semibold text-[#F6F2EA] ${largeFont ? "text-2xl" : "text-xl"}`}>
+            {t.bottom.title}
+          </h3>
+          <p className={`mx-auto max-w-2xl text-[rgba(246,242,234,0.65)] ${largeFont ? "text-base" : "text-sm"}`}>
             {t.bottom.description}
           </p>
         </div>
+
       </div>
     </section>
   );
